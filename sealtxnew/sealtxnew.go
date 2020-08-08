@@ -49,7 +49,7 @@ func (t *SealTX) querybykey(stub shim.ChaincodeStubInterface, args []string) pb.
 	key := args[0]
 	if time.Now().Before(splitTime){
 		args4old := [][]byte{[]byte("sealtx"),[]byte(key)}
-		return shim.InvokeChaincode("sealtx", args4old, "tradechannel")
+		return stub.InvokeChaincode("sealtx", args4old, "tradechannel")
 	}
 	valAsbytes, err := stub.GetState(key)
 	if err != nil {
