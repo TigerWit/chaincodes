@@ -42,22 +42,23 @@ func (t *SealTX) seal(stub shim.ChaincodeStubInterface, args []string) pb.Respon
 }
 
 func (t *SealTX) querybykey(stub shim.ChaincodeStubInterface, args []string) pb.Response {
-	var err error
-	if len(args) != 1 {
-		return shim.Error(fmt.Sprintf("Incorrect number of arguments. Expecting 1,received %d", len(args)))
-	}
-	key := args[0]
-	if time.Now().Before(splitTime){
-		args4old := [][]byte{[]byte("sealtx"),[]byte(key)}
-		return stub.InvokeChaincode("sealtx", args4old, "tradechannel")
-	}
-	valAsbytes, err := stub.GetState(key)
-	if err != nil {
-		return shim.Error(fmt.Sprintf("Querybykey Err: %v", err))
-	} else if valAsbytes == nil {
-		return shim.Error(fmt.Sprintf("The value of key '%s' does not exist", key))
-	}
-	return shim.Success(valAsbytes)
+	return stub.InvokeChaincode("sealtx", args4old, "tradechannel")
+	//var err error
+	//if len(args) != 1 {
+	//	return shim.Error(fmt.Sprintf("Incorrect number of arguments. Expecting 1,received %d", len(args)))
+	//}
+	//key := args[0]
+	//if time.Now().Before(splitTime){
+	//	args4old := [][]byte{[]byte("sealtx"),[]byte(key)}
+	//	return stub.InvokeChaincode("sealtx", args4old, "tradechannel")
+	//}
+	//valAsbytes, err := stub.GetState(key)
+	//if err != nil {
+	//	return shim.Error(fmt.Sprintf("Querybykey Err: %v", err))
+	//} else if valAsbytes == nil {
+	//	return shim.Error(fmt.Sprintf("The value of key '%s' does not exist", key))
+	//}
+	//return shim.Success(valAsbytes)
 }
 
 func (t *SealTX) history(stub shim.ChaincodeStubInterface, args []string) pb.Response {
