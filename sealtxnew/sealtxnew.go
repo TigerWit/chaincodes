@@ -42,7 +42,7 @@ func (t *SealTX) seal(stub shim.ChaincodeStubInterface, args []string) pb.Respon
 }
 
 func (t *SealTX) querybykey(stub shim.ChaincodeStubInterface, args []string) pb.Response {
-	args4old := [][]byte{[]byte("sealtx"),[]byte(args[0])}
+	args4old := [][]byte{[]byte("querybykey"),[]byte(args[0])}
 	return stub.InvokeChaincode("sealtx", args4old, "tradechannel")
 	//var err error
 	//if len(args) != 1 {
