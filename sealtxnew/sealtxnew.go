@@ -19,7 +19,7 @@ var splitTime time.Time
 
 func init() {
 	local, _ := time.LoadLocation("Local")
-	splitTime, _ = time.ParseInLocation("2006-01-02 15:04:05", "2020-08-15 24:00:00", local)
+	splitTime, _ = time.ParseInLocation("2006-01-02 15:04:05", "2020-08-15 23:59:59", local)
 }
 
 
@@ -47,7 +47,9 @@ func (t *SealTX) querybykey(stub shim.ChaincodeStubInterface, args []string) pb.
 		return shim.Error(fmt.Sprintf("Incorrect number of arguments. Expecting 1,received %d", len(args)))
 	}
 	key := args[0]
+	fmt.Println("comming...")
 	if time.Now().Before(splitTime){
+		fmt.Println("comming...")
 		args4old := [][]byte{[]byte("querybykey"),[]byte(key)}
 		return stub.InvokeChaincode("sealtx", args4old, "tradechannel")
 	}
