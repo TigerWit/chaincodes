@@ -47,9 +47,7 @@ func (t *SealTX) querybykey(stub shim.ChaincodeStubInterface, args []string) pb.
 		return shim.Error(fmt.Sprintf("Incorrect number of arguments. Expecting 1,received %d", len(args)))
 	}
 	key := args[0]
-	fmt.Println("comming...")
 	if time.Now().Before(splitTime){
-		fmt.Println("comming...")
 		args4old := [][]byte{[]byte("querybykey"),[]byte(key)}
 		return stub.InvokeChaincode("sealtx", args4old, "tradechannel")
 	}
