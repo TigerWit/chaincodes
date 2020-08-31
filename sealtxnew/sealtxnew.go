@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
-	"time"
 )
 
 var logger = shim.NewLogger("sealtxnew")
