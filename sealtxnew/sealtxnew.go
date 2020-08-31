@@ -15,14 +15,6 @@ import (
 
 var logger = shim.NewLogger("sealtxnew")
 
-var splitTime time.Time
-
-func init() {
-	local, _ := time.LoadLocation("Local")
-	splitTime, _ = time.ParseInLocation("2006-01-02 15:04:05", "2020-08-15 23:59:59", local)
-}
-
-
 type SealTX struct {
 }
 
@@ -47,15 +39,12 @@ func (t *SealTX) querybykey(stub shim.ChaincodeStubInterface, args []string) pb.
 		return shim.Error(fmt.Sprintf("Incorrect number of arguments. Expecting 1,received %d", len(args)))
 	}
 	key := args[0]
-	if time.Now().Before(splitTime){
-		args4old := [][]byte{[]byte("querybykey"),[]byte(key)}
-		return stub.InvokeChaincode("sealtx", args4old, "tradechannel")
-	}
 	valAsbytes, err := stub.GetState(key)
 	if err != nil {
 		return shim.Error(fmt.Sprintf("Querybykey Err: %v", err))
 	} else if valAsbytes == nil {
-		return shim.Error(fmt.Sprintf("The value of key '%s' does not exist", key))
+		args4old := [][]byte{[]byte("querybykey"),[]byte(key)}
+		return stub.InvokeChaincode("sealtx", args4old, "tradechannel")
 	}
 	return shim.Success(valAsbytes)
 }
@@ -119,7 +108,8 @@ func (t *SealTX) gettxidspec(stub shim.ChaincodeStubInterface, args []string) pb
 			return shim.Error("iterator history fail: " + err.Error())
 		}
 	}
-	return shim.Error("The specified TxId does not exist.")
+	args4old := [][]byte{[]byte("gettxidspec"), []byte(key), []byte(value)}
+	return stub.InvokeChaincode("sealtx", args4old, "tradechannel")
 }
 func (s *SealTX) Init(stub shim.ChaincodeStubInterface) pb.Response {
 	fmt.Println("Init Chaincode SealTX")
